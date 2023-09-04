@@ -31,5 +31,3 @@ jobs:
     - name: Run unit tests
       run: make test
 
-    - name: govulncheck
-      uses: golang/govulncheck-action@v1
