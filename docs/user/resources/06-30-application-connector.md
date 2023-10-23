@@ -12,4 +12,26 @@ kubectl get crd applicationconnectors.operator.kyma-project.io -o yaml
 ```
 ## Sample custom resource
 
-This is a sample resource that instance all parts of 
+```
+apiVersion: operator.kyma-project.io/v1alpha1
+kind: ApplicationConnector
+metadata:
+  namespace: kyma-system
+  labels:
+    app.kubernetes.io/name: applicationconnector
+    app.kubernetes.io/instance: applicationconnector-sample
+  name: applicationconnector-sample
+spec:
+  domainName: "my.domain"
+  appConnValidator:
+    logLevel: "info"
+    logFormat: "json"
+  appGateway:
+    proxyTimeout: "10s"
+    requestTimeout: "10s"
+    logLevel: "info"
+  runtimeAgent:
+    controllerSyncPeriod: "180s"
+    minimalConfigSyncTime: "15s"
+    certValidityRenewalThreshold: "0.3"
+```
