@@ -46,6 +46,6 @@ install-k3d:
 	curl --silent --fail ${K3D_URL} | TAG=${DEFAULT_K3D_VERSION} bash
 
 .PHONY: run-without-lifecycle-manager
-run-without-lifecycle-manager: install-k3d
+run-without-lifecycle-manager:
 	@make -C ${PROJECT_COMMON} run-without-lifecycle-manager
 
