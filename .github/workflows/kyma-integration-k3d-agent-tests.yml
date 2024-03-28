@@ -12,8 +12,6 @@ on:
 jobs:
   run-cra-k3d:
     uses: "./.github/workflows/reusable-k3d-agent-test.yml"
-    with:
-      k3d-version: v5.6.0
     secrets:
       compass-host: ${{ secrets.COMPASS_HOST }}
       compass-client-id: ${{ secrets.COMPASS_CLIENT_ID }}
