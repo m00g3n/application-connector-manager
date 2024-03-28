@@ -33,6 +33,9 @@ spec:
 
 This table lists all the possible parameters of a given resource together with their descriptions:
 
+> [!WARNING]
+> Runtime Agent is currently not integrated into the Application Connector module. Proceed with caution and consult the respective documentation for the Application Connector module's current configuration and functionality.
+
 | Parameter   |      Required      |  Description |
 |----------|:-------------:|------|
 | **metadata.name** | Yes | Specifies the name of the CR. |
@@ -61,6 +64,6 @@ These components use this CR:
 
 | Component   |  Description |
 |-----------|-------------|
-| Application Gateway | Reads the API metadata in order to connect to the external system. | 
+| Application Gateway | Reads the API metadata in order to connect to the external system. |
 | Application Connectivity Validator (in the [Compass mode](../README.md)) | Validates requests and events from the external system against the respective Application CR. |
 | Runtime Agent (in the [Compass mode](../README.md)) | Saves the metadata of the connected external system in the Application CR, synchronizes the metadata stored in Compass with the state in the cluster stored in the Application CR. |

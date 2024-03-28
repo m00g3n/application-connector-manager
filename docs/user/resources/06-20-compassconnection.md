@@ -1,8 +1,9 @@
 # CompassConnection
 
-The `compassconnections.compass.kyma-project.io` CustomResourceDefinition (CRD) 
-is a detailed description of the kind of data and the format used to preserve 
-the status of the connection between the Runtime Agent and Compass. 
+> [!WARNING]
+> Runtime Agent is currently not integrated into the Application Connector module. Proceed with caution and consult the respective documentation for the Application Connector module's current configuration and functionality.
+
+The `compassconnections.compass.kyma-project.io` CustomResourceDefinition (CRD) is a detailed description of the kind of data and the format used to preserve the status of the connection between the Runtime Agent and Compass.
 The `CompassConnection` custom resource (CR) contains the connection statuses and Compass URLs.
 To get the up-to-date CRD and show the output in the `yaml` format, run this command:
 
@@ -12,8 +13,7 @@ kubectl get crd compassconnections.compass.kyma-project.io -o yaml
 
 ## Sample Custom Resource
 
-This is a sample resource that registers the `compass-agent-connection` CompassConnection,
-which preserves the status of the connection between Runtime Agent and Compass. 
+This is a sample resource that registers the `compass-agent-connection` CompassConnection, which preserves the status of the connection between Runtime Agent and Compass.
 It also stores the URLs for the Connector and the Director.
 
 ```yaml
@@ -44,7 +44,7 @@ status:
 
 ## Custom Resource Parameters
 
-This table lists all the possible parameters of the CompassConnection custom resource together with their descriptions. For more details, see the [CompassConnection specification file](https://github.com/kyma-project/kyma/blob/main/installation/resources/crds/compass-runtime-agent/compass-connection.crd.yaml).
+This table lists all the possible parameters of the CompassConnection custom resource together with their descriptions. For more details, see the [CompassConnection specification file](https://github.com/kyma-project/application-connector-manager/blob/main/application-connector.yaml#L619).
 
 <!-- The table below was generated automatically -->
 <!-- Some special tags (html comments) are at the end of lines due to markdown requirements. -->
