@@ -29,6 +29,8 @@ jobs:
           K3D_URL: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
           DEFAULT_K3D_VERSION: ${{ inputs.k3d-version }}
         run: curl --silent --fail $K3D_URL | TAG=$DEFAULT_K3D_VERSION bash
+      - name: Create annotation for build error
+        run: echo "HELLO MARCIN"
       # Set up cache to speed up the workflow
       - name: setup-cache
         uses: actions/cache@v3
