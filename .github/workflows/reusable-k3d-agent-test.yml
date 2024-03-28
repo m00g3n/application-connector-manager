@@ -13,19 +13,15 @@ jobs:
   test-cra:
     runs-on: ubuntu-latest
     steps:
-      # Install helm
       - uses: azure/setup-helm@v4.1.0
         id: install-helm
-      # Checkout the code
       - name: checkout
         uses: actions/checkout@v3
-      # Install k3d
       - name: install-k3d
         env:
           K3D_URL: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
           DEFAULT_K3D_VERSION: v5.6.0
         run: curl --silent --fail $K3D_URL | TAG=$DEFAULT_K3D_VERSION bash
-      # Set up cache to speed up the workflow
       - name: setup-cache
         uses: actions/cache@v3
         with:
@@ -36,14 +32,12 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-      # Run CRA tests on k3d
       - name: run-tests
         env:
           COMPASS_CLIENT_ID: ${{ secrets.id }}
           COMPASS_CLIENT_SECRET: ${{ secrets.secret }}
           COMPASS_HOST: ${{ secrets.host }} 
         run: make -C tests/hack/ci k3d-agent-tests
-      # Archive tewst logs
       - name: archive-logs
         if: always()
         uses: actions/upload-artifact@v4
