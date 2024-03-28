@@ -2,12 +2,13 @@ name: k3d CRA test
 on:
   workflow_call:
     secrets:
-      compass-host:
+      host:
         required: true
-      compass-client-id:
+      id:
         required: true
-      compass-client-secret:
+      secret:
         required: true
+
 jobs:
   test-cra:
     runs-on: ubuntu-latest
@@ -38,9 +39,9 @@ jobs:
       # Run CRA tests on k3d
       - name: run-tests
         env:
-          COMPASS_CLIENT_ID: ${{ secrets.compass-client-id }}
-          COMPASS_CLIENT_SECRET: ${{ secrets.compass-client-secret }}
-          COMPASS_HOST: ${{ secrets.compass-host }} 
+          COMPASS_CLIENT_ID: ${{ secrets.id }}
+          COMPASS_CLIENT_SECRET: ${{ secrets.secret }}
+          COMPASS_HOST: ${{ secrets.host }} 
         run: make -C tests/hack/ci k3d-agent-tests
       # Archive tewst logs
       - name: archive-logs
