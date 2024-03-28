@@ -11,6 +11,7 @@ on:
       - ready_for_review
 jobs:
   run-cra-k3d:
+    if: ${{ !github.event.pull_request.draft }}
     uses: "./.github/workflows/reusable-k3d-agent-test.yml"
     with:
       k3d-version: "v5.6.0"
