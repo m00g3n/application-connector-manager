@@ -12,7 +12,3 @@ on:
 jobs:
   run-cra-k3d:
     uses: "./.github/workflows/reusable-k3d-agent-test.yml"
-    secrets:
-      host: "test"
-      id: "test"
-      secret: "test"
