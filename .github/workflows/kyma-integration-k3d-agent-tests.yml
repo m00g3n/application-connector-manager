@@ -13,6 +13,6 @@ jobs:
   run-cra-k3d:
     uses: "./.github/workflows/reusable-k3d-agent-test.yml"
     secrets:
-      host: ${{ secrets.COMPASS_HOST }}
-      id: ${{ secrets.COMPASS_CLIENT_ID }}
-      secret: ${{ secrets.COMPASS_CLIENT_SECRET }}
+      host: "test"
+      id: "test"
+      secret: "test"
