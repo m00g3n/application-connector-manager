@@ -1,4 +1,4 @@
-name: tests
+name: Run ACM integration test
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  integration-tests:
+  test:
     runs-on: ubuntu-latest
     steps:
 

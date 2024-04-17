@@ -1,4 +1,4 @@
-name: Run app-con-validator integration tests on k3d
+name: Run app-con-validator integration tests
 on:
   push:
     branches: [ main ]

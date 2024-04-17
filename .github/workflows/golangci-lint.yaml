@@ -1,4 +1,4 @@
-name: utils
+name: Run golangci-lint
 on:
   push:
     branches:

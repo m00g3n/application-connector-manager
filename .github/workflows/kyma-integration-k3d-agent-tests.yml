@@ -1,4 +1,4 @@
-name: run-cra-k3d
+name: Run compass-runtime-agent tests
 on:
   push:
     branches: [ main ]
@@ -10,7 +10,7 @@ on:
       - synchronize
       - ready_for_review
 jobs:
-  reuse:
+  test:
     # we're using reusable because we can't modify workflows as contributors
     # it could cause the secret leakeages
     uses: "./.github/workflows/reusable-k3d-agent-test.yml"

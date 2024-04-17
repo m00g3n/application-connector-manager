@@ -1,4 +1,4 @@
-name: Run app-gateway integration tests on k3d
+name: Run app-gateway integration tests
 on:
   push:
     branches: [ main ]

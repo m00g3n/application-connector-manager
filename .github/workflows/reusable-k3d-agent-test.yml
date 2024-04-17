@@ -1,4 +1,4 @@
-name: Run compass-runtime-agent integration tests on k3d 
+name: compass-runtime-agent reusable tests
 on:
   workflow_call:
     inputs:
@@ -14,7 +14,7 @@ on:
       compass-client-secret:
         required: true
 jobs:
-  test:
+  cra-k3d-test:
     runs-on: ubuntu-latest
     steps:
       - uses: azure/setup-helm@v4.1.0
