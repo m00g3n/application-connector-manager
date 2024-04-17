@@ -2,26 +2,36 @@ name: app-gateway
 on:
   push:
     branches: [ main ]
+
   pull_request:
+    paths:
+      - 'application-connector.yaml'
+      - 'application-connector-dependencies.yaml'
+
 jobs:
   integration-test:
     runs-on: ubuntu-latest
     steps:
       - uses: azure/setup-helm@v4.1.0
         id: install
+
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Set up go environment
         uses: actions/setup-go@v4
         with:
           go-version: 1.22.2
+
       - name: Install k3d
         env:
           K3D_URL: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
           DEFAULT_K3D_VERSION: v5.6.0
         run: curl --silent --fail $K3D_URL | TAG=$DEFAULT_K3D_VERSION bash
+
       - name: Run unit tests
         run: make -C tests/hack/ci k3d-gateway-tests
+
       - name: Archive test results
         if: always()
         uses: actions/upload-artifact@v4

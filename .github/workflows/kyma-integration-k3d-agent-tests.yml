@@ -2,13 +2,18 @@ name: compass-runtime-agent
 on:
   push:
     branches: [ main ]
+
   pull_request_target:
     branches: [ main ]
+    paths:
+      - 'application-connector.yaml'
+      - 'application-connector-dependencies.yaml'
     types:
       - opened
       - reopened
       - synchronize
       - ready_for_review
+
 jobs:
   reuse:
     # we're using reusable because we can't modify workflows as contributors

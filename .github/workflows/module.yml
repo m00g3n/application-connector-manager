@@ -3,6 +3,8 @@ name: module
 on:
   push:
     branches: [ "main" ]
+
+  pull_request:
     paths:
       - 'Dockerfile'
       - 'Makefile'
@@ -17,8 +19,6 @@ on:
       - 'main.go'
       - 'pkg/**'
       - '!test/**'
-
-  pull_request:
 
 permissions:
   contents: read
