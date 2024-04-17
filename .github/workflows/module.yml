@@ -3,6 +3,20 @@ name: module
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'Dockerfile'
+      - 'Makefile'
+      - 'api/**'
+      - 'application-connector-dependencies.yaml'
+      - 'application-connector.yaml'
+      - 'config/**'
+      - 'controllers/**'
+      - 'go.mod'
+      - 'go.sum'
+      - 'hack/**'
+      - 'main.go'
+      - 'pkg/**'
+      - '!test/**'
 
   pull_request:
 
@@ -13,6 +27,7 @@ jobs:
   integration-test:
     runs-on: ubuntu-latest
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -27,6 +42,7 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v4
 
