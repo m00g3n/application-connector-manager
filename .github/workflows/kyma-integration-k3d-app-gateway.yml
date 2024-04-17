@@ -1,10 +1,10 @@
-name: Run app-gateway integration tests
+name: app-gateway
 on:
   push:
     branches: [ main ]
   pull_request:
 jobs:
-  test:
+  integration-test:
     runs-on: ubuntu-latest
     steps:
       - uses: azure/setup-helm@v4.1.0

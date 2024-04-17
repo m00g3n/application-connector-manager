@@ -1,18 +1,49 @@
-name: Run golangci-lint
+name: security & maintenance
+
 on:
   push:
-    branches:
-      - master
-      - main
-      - fresh
+    branches: [ "main" ]
+
   pull_request:
 
 permissions:
   contents: read
-  # Optional: allow read access to pull request. Use with `only-new-issues` option.
-  # pull-requests: read
 
 jobs:
+
+  trivy:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+    name: trivy
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          exit-code: 1
+          format: table
+          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
+          ignore-unfixed: false
+          timeout: '5m0s'
+          vuln-type: 'os,library'
+
+  go-vuln-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: vulncheck
+      uses: golang/govulncheck-action@v1
+      with:
+        go-version-input: 1.22.2
+        go-package: ./...
+
   golangci-lint:
     runs-on: ubuntu-latest
     steps:
