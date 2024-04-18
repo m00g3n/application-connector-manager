@@ -1,6 +1,13 @@
 name: documentation
 run-name: ${{github.event.pull_request.title}}
-on: [ pull_request ]
+on: 
+  pull_request:
+    paths:
+      - '**/docs/**'
+      - '**.md'
+      - '.github/workflows/pr-markdown-link-check.yaml'
+      - '.mlc.config.json'
+
 jobs:
   markdown-link-check:
     runs-on: ubuntu-latest
