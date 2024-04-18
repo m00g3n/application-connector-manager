@@ -5,8 +5,6 @@ on:
 
   pull_request:
     paths:
-      - 'application-connector.yaml'
-      - 'application-connector-dependencies.yaml'
       - 'tests/Makefile'
       - 'tests/Dockerfile.connectivity-validator'
       - 'tests/go.mod'
@@ -51,3 +49,9 @@ jobs:
           name: application-connectivity-validator-test-results
           path: application-connectivity-validator-test.log
 
+      - name: Create summary
+        if: always()
+        run: |
+          echo \`\`\` >> $GITHUB_STEP_SUMMARY
+          cat application-connectivity-validator-test.log >> $GITHUB_STEP_SUMMARY
+          echo \`\`\` >> $GITHUB_STEP_SUMMARY
