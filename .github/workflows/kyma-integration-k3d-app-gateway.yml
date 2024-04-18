@@ -29,7 +29,7 @@ jobs:
         id: install
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up go environment
         uses: actions/setup-go@v4
