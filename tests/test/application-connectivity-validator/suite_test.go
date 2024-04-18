@@ -45,7 +45,7 @@ func (vs *ValidatorSuite) TestGoodCert() {
 		expectedCName string
 	}{{
 		appName:       standaloneAppName,
-		expectedCName: standaloneAppName,
+		expectedCName: "aaaa",
 	}, {
 		appName:       compassAppName,
 		expectedCName: "clientId1",
@@ -100,7 +100,7 @@ func (vs *ValidatorSuite) TestBadCert() {
 				req.Header.Add("X-Forwarded-Client-Cert", "Hash=hash1;Cert=\"cert\"")
 
 				res, _, err := cli.Do(req)
-				vs.Require().Nil(err)
+				vs.Require().NotNil(err)
 				vs.Equal(http.StatusForbidden, res.StatusCode)
 			})
 
