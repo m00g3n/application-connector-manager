@@ -7,6 +7,19 @@ on:
     paths:
       - 'application-connector.yaml'
       - 'application-connector-dependencies.yaml'
+      - 'tests/Makefile'
+      - 'tests/Dockerfile.gateway'
+      - 'tests/Dockerfile.mockapp'
+      - 'tests/Makefile.test-application-gateway'
+      - 'tests/go.mod'
+      - 'tests/go.sum'
+      - 'tests/hack/**'
+      - 'tests/internal/testkit/**'
+      - 'tests/resources/charts/gateway-test/**'
+      - 'tests/scripts/fetch-test-logs.sh'
+      - 'tests/scripts/generate-self-signed-certs.sh'
+      - 'tests/scripts/local-build.sh'
+      - 'tests/test/application-gateway'
 
 jobs:
   integration-test:
