@@ -7,6 +7,15 @@ on:
     paths:
       - 'application-connector.yaml'
       - 'application-connector-dependencies.yaml'
+      - 'tests/Makefile'
+      - 'tests/Dockerfile.connectivity-validator'
+      - 'tests/go.mod'
+      - 'tests/go.sum'
+      - 'tests/hack/**'
+      - 'tests/internal/testkit/httpd/**'
+      - 'tests/resources/charts/application-connectivity-validator-test/**'
+      - 'tests/scripts/fetch-test-logs.sh'
+      - 'tests/test/application-connectivity-validator/**'
 
 jobs:
   integration-test:
