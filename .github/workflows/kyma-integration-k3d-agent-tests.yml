@@ -8,6 +8,19 @@ on:
     paths:
       - 'application-connector.yaml'
       - 'application-connector-dependencies.yaml'
+      - 'tests/Makefile'
+      - 'tests/Dockerfile.compass-runtime-agent'
+      - 'tests/Makefile.test-compass-runtime-agent'
+      - 'tests/go.mod'
+      - 'tests/go.sum'
+      - 'tests/hack/**'
+      - 'tests/internal/testkit/**'
+      - 'tests/resources/charts/compass-runtime-agent-test/**'
+      - 'tests/scripts/fetch-test-logs.sh'
+      - 'tests/scripts/generate-self-signed-certs.sh'
+      - 'tests/scripts/jobguard.sh'
+      - 'tests/scripts/local-build.sh'
+      - 'tests/test/compass-runtime-agent'
     types:
       - opened
       - reopened
