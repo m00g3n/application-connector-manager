@@ -1,6 +1,6 @@
 name: app-con-validator
 on:
-  pull_request:
+  pull_request_target:
   push:
     branches: [ main ]
 
@@ -56,7 +56,9 @@ jobs:
       - if: steps.changes.outputs.src == 'false'
         name: Tag docker image
         run: |
-          docker tag abcde ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests
+          docker pull ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main  \
+          && docker tag ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:testmeplz \
+          && docker push ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:testmeplz
 
   integration-test:
     needs:
