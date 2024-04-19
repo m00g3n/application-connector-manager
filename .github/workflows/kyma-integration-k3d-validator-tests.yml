@@ -1,56 +1,120 @@
 name: app-con-validator
 on:
+  pull_request_target:
   push:
     branches: [ main ]
 
-  pull_request:
-    paths:
-      - 'tests/Makefile'
-      - 'tests/Dockerfile.connectivity-validator'
-      - 'tests/go.mod'
-      - 'tests/go.sum'
-      - 'tests/hack/**'
-      - 'tests/internal/testkit/httpd/**'
-      - 'tests/resources/charts/application-connectivity-validator-test/**'
-      - 'tests/scripts/fetch-test-logs.sh'
-      - 'tests/test/application-connectivity-validator/**'
-
 jobs:
+  push_to_ghrc:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read  
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # detect changes in the tests directory that require a new image build
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'tests/Dockerfile.connectivity-validator'
+              - 'tests/go.mod'
+              - 'tests/go.sum'
+              - 'tests/hack/**'
+              - 'tests/internal/testkit/httpd/**'
+              - 'tests/resources/charts/application-connectivity-validator-test/**'
+              - 'tests/scripts/fetch-test-logs.sh'
+              - 'tests/test/application-connectivity-validator/**'
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests
+
+      - if: steps.changes.outputs.src == 'true'
+        name: Build and push Docker images
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./tests
+          file: ./tests/Dockerfile.connectivity-validator
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - if: steps.changes.outputs.src == 'false'
+        name: Tag docker image
+        run: |
+          docker pull ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main  \
+          && docker tag ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:testmeplz \
+          && docker push ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:testmeplz
+
   integration-test:
+    needs:
+      - push_to_ghrc
     runs-on: ubuntu-latest
     steps:
-      - uses: azure/setup-helm@v4.1.0
-        id: install
-
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up go environment
+       # detect changes to execute tests
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'application-connector.yaml'
+              - 'application-connector-dependencies.yaml'
+
+      - if: steps.changes.outputs.src == 'true'
+        uses: azure/setup-helm@v4.1.0
+        id: install
+
+      - if: steps.changes.outputs.src == 'true'
+        name: Set up go environment
         uses: actions/setup-go@v5
         with:
           go-version: 1.22.2
 
-      - name: Install k3d
+      - if: steps.changes.outputs.src == 'true'
+        name: Install k3d
         env:
           K3D_URL: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
           DEFAULT_K3D_VERSION: v5.6.0
         run: curl --silent --fail $K3D_URL | TAG=$DEFAULT_K3D_VERSION bash
 
-      - name: Insall yq
+      - if: steps.changes.outputs.src == 'true'
+        name: Insall yq
         run: sudo add-apt-repository ppa:rmescandon/yq && sudo apt update && sudo apt install yq -y
 
-      - name: Run unit tests
+      - if: steps.changes.outputs.src == 'true'
+        name: Run unit tests
         run: make -C tests/hack/ci k3d-validator-tests
 
       - name: Archive test results
-        if: always()
+        if: |
+          always() &&
+          steps.changes.outputs.src == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: application-connectivity-validator-test-results
           path: application-connectivity-validator-test.log
 
       - name: Create summary
-        if: always()
+        if: |
+          always() &&
+          steps.changes.outputs.src == 'true'
         run: |
           echo \`\`\` >> $GITHUB_STEP_SUMMARY
           cat application-connectivity-validator-test.log >> $GITHUB_STEP_SUMMARY
