@@ -24,6 +24,7 @@ VALIDATOR_TEST_VERSION := $(if $(VALIDATOR_TEST_VERSION),pr-$(VALIDATOR_TEST_VER
 
 .PHONY: create-resources
 create-resources:
+	VALIDATOR_TEST_VERSION := $(if $(VALIDATOR_TEST_VERSION),pr-$(VALIDATOR_TEST_VERSION),"main")
 	@echo "::group::create-test-namespace"
 	kubectl create namespace $(NAMESPACE) --dry-run=client -o yaml \
 		| kubectl apply -f -
