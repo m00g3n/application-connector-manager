@@ -36,6 +36,7 @@ create-resources:
 	@helm template ${PWD}/tests/resources/charts/application-connectivity-validator-test/charts/test \
     		--set namespace=$(NAMESPACE) \
     		--values ${PWD}/tests/resources/charts/application-connectivity-validator-test/values.yaml \
+		--set global.images.validatorTest.version=$(shell [ -z "$(VALIDATOR_TEST_VERSION)" ] && echo "main" || echo "pr-$(VALIDATOR_TEST_VERSION)") \
 		| kubectl apply -f -
 	@echo "::endgroup::"
 
