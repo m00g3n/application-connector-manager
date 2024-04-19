@@ -19,6 +19,9 @@ test-validator: patch-validator create-resources
 	${PWD}/tests/scripts/fetch-test-logs.sh application-connectivity-validator-test ${PWD}
 	@echo "::endgroup::"
 
+
+VALIDATOR_TEST_VERSION := $(if $(VALIDATOR_TEST_VERSION),pr-$(VALIDATOR_TEST_VERSION),"main")
+
 .PHONY: create-resources
 create-resources:
 	@echo "::group::create-test-namespace"
