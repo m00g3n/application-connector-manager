@@ -27,9 +27,9 @@ create-resources:
 	kubectl label namespace $(NAMESPACE) istio-injection=enabled --overwrite
 	@echo "::endgroup::"
 	@echo "::group::create-resources::install-echoserver"
-	@helm template ${PWD}/tests/resources/charts/application-connectivity-validator-test/charts/echoserver \
+	helm template ${PWD}/tests/resources/charts/application-connectivity-validator-test/charts/echoserver \
 		--set global.namespace=$(NAMESPACE) \
-		| kubectl apply -f -
+		--set global.images.validatorTest.version=$(shell [ -z "$(VALIDATOR_TEST_VERSION)" ] && echo "main" || echo "pr-$(VALIDATOR_TEST_VERSION)")
 	kubectl rollout status deployment echoserver -n test --timeout=90s
 	@echo "::endgroup::"
 	@echo "::group::create-resources::install-test"
