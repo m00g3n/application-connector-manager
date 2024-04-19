@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  push_to_ghrc:
+  push-to-ghrc:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -63,17 +63,16 @@ jobs:
         name: Tag docker image
         run: |
           docker pull ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main  \
-          && docker tag ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:testmeplz \
+          && docker tag ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:main ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:pr-${{ github.event.number }} \
           && docker push ghcr.io/${{ github.repository }}/test-images/application-connectivity-validator-tests:pr-${{ github.event.number }}
 
   integration-test:
     needs:
-      - push_to_ghrc
+      - push-to-ghrc
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
        # detect changes to execute tests
       - uses: dorny/paths-filter@v3
         id: changes
@@ -106,7 +105,7 @@ jobs:
 
       - if: steps.changes.outputs.src == 'true'
         name: Run unit tests
-        run: make -C tests/hack/ci k3d-validator-tests
+        run: make -C tests/hack/ci k3d-validator-tests VALIDATOR_TEST_VERSION=${{ github.event.number }}
 
       - name: Archive test results
         if: |
@@ -123,5 +122,8 @@ jobs:
           steps.changes.outputs.src == 'true'
         run: |
           echo \`\`\` >> $GITHUB_STEP_SUMMARY
+          echo "# test template" >> $GITHUB_STEP_SUMMARY
+          cat /tmp/test.template
+          echo "# test results" >> $GITHUB_STEP_SUMMARY
           cat application-connectivity-validator-test.log >> $GITHUB_STEP_SUMMARY
           echo \`\`\` >> $GITHUB_STEP_SUMMARY

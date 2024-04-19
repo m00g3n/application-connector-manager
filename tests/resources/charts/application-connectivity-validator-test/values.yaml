@@ -4,12 +4,11 @@
 
 global:
   containerRegistry:
-    path: "europe-docker.pkg.dev/kyma-project"
+    path: "ghcr.io/m00g3n/application-connector-manager/test-images"
 
   images:
     validatorTest:
-      name: "connectivity-validator-test"
-      version: "v20230925-75c3a9a8"
-      directory: "prod"
+      name: "application-connectivity-validator-tests"
+      version: "main"
 
   namespace: "test"

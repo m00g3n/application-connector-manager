@@ -33,9 +33,11 @@ create-resources:
 	kubectl rollout status deployment echoserver -n test --timeout=90s
 	@echo "::endgroup::"
 	@echo "::group::create-resources::install-test"
-	@helm template ${PWD}/tests/resources/charts/application-connectivity-validator-test/charts/test \
+	helm template ${PWD}/tests/resources/charts/application-connectivity-validator-test/charts/test \
     		--set namespace=$(NAMESPACE) \
     		--values ${PWD}/tests/resources/charts/application-connectivity-validator-test/values.yaml \
+		--set global.images.validatorTest.version=$(shell [ -z "$(VALIDATOR_TEST_VERSION)" ] && echo "main" || echo "pr-$(VALIDATOR_TEST_VERSION)") \
+		| tee /tmp/test.template \
 		| kubectl apply -f -
 	@echo "::endgroup::"
 
