@@ -89,7 +89,7 @@ func (vs *ValidatorSuite) TestBadCert() {
 				req.Header.Add("X-Forwarded-Client-Cert", certFields("nonexistant"))
 
 				res, _, err := cli.Do(req)
-				vs.Require().Nil(err)
+				vs.Require().NotNil(err)
 				vs.Equal(http.StatusForbidden, res.StatusCode)
 			})
 

@@ -207,7 +207,7 @@ metadata:
   name: central-application-gateway-priority-class
 value: 2000000
 globalDefault: false
-description: "Scheduling priority of central-application-gateway component. By default, central-application-gateway should not be blocked by unschedulable user workloads."
+description: "Scheduling priority of central-application-gateway component. By default, central-application-gateway should not be blocked by unschedulable user workloads!"
 ---
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
