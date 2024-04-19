@@ -215,7 +215,7 @@ metadata:
   name: central-application-connectivity-validator-priority-class
 value: 2000000
 globalDefault: false
-description: "Scheduling priority of central-application-connectivity-validator component. By default, central-application-connectivity-validator should not be blocked by unschedulable user workloads."
+description: "Scheduling priorityyyy of central-application-connectivity-validator component. By default, central-application-connectivity-validator should not be blocked by unschedulable user workloads."
 ---
 # Source: application-connector/charts/central-application-connectivity-validator/templates/deployment.yaml
 apiVersion: apps/v1
