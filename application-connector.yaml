@@ -1,5 +1,5 @@
 ---
-# Source: application-connector/charts/central-application-connectivity-validator/templates/service-account.yaml
+# Source: application-connector/charts/central-application-connectivity-validator/templates/service-account.yamlo
 apiVersion: v1
 kind: ServiceAccount
 metadata:
