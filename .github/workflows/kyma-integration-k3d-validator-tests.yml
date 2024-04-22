@@ -121,9 +121,10 @@ jobs:
           always() &&
           steps.changes.outputs.src == 'true'
         run: |
-          echo \`\`\` >> $GITHUB_STEP_SUMMARY
-          echo "# test template" >> $GITHUB_STEP_SUMMARY
-          cat /tmp/test.template
-          echo "# test results" >> $GITHUB_STEP_SUMMARY
+          echo "<details>" >> $GITHUB_STEP_SUMMARY
+          echo "<summary>this will be closed</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           cat application-connectivity-validator-test.log >> $GITHUB_STEP_SUMMARY
-          echo \`\`\` >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
