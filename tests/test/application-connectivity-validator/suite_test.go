@@ -82,6 +82,10 @@ func (vs *ValidatorSuite) TestBadCert() {
 		endpoints := []string{v1Events, v2Events, routedEvents}
 
 		for _, url := range endpoints {
+			vs.Run("This should fail", func() {
+				vs.Require().NotNil(nil)
+			})
+
 			vs.Run(fmt.Sprintf("Send request to %s URL with incorrect cname in header", url), func() {
 				req, err := http.NewRequest(http.MethodGet, url, nil)
 				vs.Nil(err)
